@@ -3,9 +3,9 @@ from nucleus_probability import get_cross_section_dict
 
 ATOMIC_NUMBER = {
     'D2O': 20,
-    'U_235': 90,
-    'U_238' : 90,
-    'Zr' : 32
+    'U_235': 235,
+    'U_238' : 238,
+    'Zr' : 96
 }
 D2O_data_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/D2O_collision'
 U_238_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/U_238_collision'
@@ -53,7 +53,7 @@ def get_collision_prob_dict(energy,nucleus='D2O'):
 
 def energy_post_D2O_col(energy):
     cross_section_dict = get_cross_section_dict(energy, directory=D2O_data_directory, Nuclei=D2O_nuclei_type)
-    print(cross_section_dict)
+    
     return 0
 
 if __name__ == "__main__":

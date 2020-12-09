@@ -47,6 +47,7 @@ class MultiplicationFactor:
     def generate_collision_type(self,init_energy,nuclei):
         if nuclei=='D2O':
             col_prob_dict = get_collision_prob_dict(init_energy)
+            print(col_prob_dict)
             return self.generate_choices_probability(init_energy,nuclei_prob_dict=col_prob_dict)[0]
         if nuclei=='U_238':
             print('U_238_milaa re baba')
@@ -59,7 +60,9 @@ class MultiplicationFactor:
         if(collision_type=='elastic'):
             return elastic_collision_energy(init_energy,nucleus)
         if(collision_type=='inelastic'):
-            return inelastic_collision_energy(init_energy,nucleus)
+            return inelastic_collision_energy(init_energy)
+        if(collision_type=='capture'):
+            return 0
 
 
 if __name__ == "__main__":
@@ -84,11 +87,37 @@ if __name__ == "__main__":
     # plt.clf()
     # sns.distplot(lst)
     # plt.xlim(0, 8)
-    for i in range(100):
+    number_of_nuetrons = 1
+    fission_count = 0
+    for i in range(number_of_nuetrons):
         nuetron_energy = Simulation_Instance.fix_init_nuetron_energy()
-        nucleus_prob = Simulation_Instance.generate_choices_probability(nuetron_energy)[0]
+        
+        is_alive_nuetron = True
         # nucleus_prob = 'U_238'
-        collision_type = Simulation_Instance.generate_collision_type(nuetron_energy,nucleus_prob)
-        print(nuetron_energy)
-        print(collision_type)
-        print(Simulation_Instance.energy_post_collision(nuetron_energy,collision_type,nucleus_prob))
+        while(is_alive_nuetron):
+            nucleus_prob = Simulation_Instance.generate_choices_probability(nuetron_energy)[0]
+            # print(nucleus_prob)
+            if nucleus_prob == 'Zr':
+                print(nucleus_prob)
+                nuetron_energy = Simulation_Instance.energy_post_collision(nuetron_energy,'inelastic','Zr')
+                continue
+            if nucleus_prob == 'U_235':
+                print(nucleus_prob)
+                fission_count += 1
+                is_alive_nuetron = False
+                continue
+            if nucleus_prob == 'D2O':
+                collision_type = Simulation_Instance.generate_collision_type(nuetron_energy,nucleus_prob)
+                print(nucleus_prob + ' ' + collision_type)
+                nuetron_energy = Simulation_Instance.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
+                continue
+            if nucleus_prob == 'U_238':
+                collision_type = Simulation_Instance.generate_collision_type(nuetron_energy,nucleus_prob)
+                print(nucleus_prob + ' ' + collision_type)
+                if collision_type == 'capture':
+                    number_of_nuetrons -= 1
+                    is_alive_nuetron = False
+                    continue
+                nuetron_energy = Simulation_Instance.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
+    print(fission_count/1)
+            
