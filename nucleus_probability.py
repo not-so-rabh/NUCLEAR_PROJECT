@@ -27,6 +27,7 @@ def cross_section(energy,element,dataframes_dict):
 
 def get_cross_section_dict(energy,directory=DATA_DIRECTORY,Nuclei=Nuclei_init):
     dataframes_dict = get_dataframes(directory)
+    # print(dataframes_dict.keys())
     cross_section_dict = {}
     for nucleus in Nuclei:
         cross_section_dict[nucleus] = cross_section(energy, nucleus, dataframes_dict)

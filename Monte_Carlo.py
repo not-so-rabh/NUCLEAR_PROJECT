@@ -2,7 +2,7 @@ import random
 import math
 import matplotlib.pyplot as plt
 import seaborn as sns
-from nucleus_probability import get_nucleus_probability_dict
+from nucleus_probability import get_nucleus_probability_dict, nucleus_probs
 from collision import get_collision_prob_dict,elastic_collision_energy,inelastic_collision_energy
 
 
@@ -48,6 +48,10 @@ class MultiplicationFactor:
         if nuclei=='D2O':
             col_prob_dict = get_collision_prob_dict(init_energy)
             return self.generate_choices_probability(init_energy,nuclei_prob_dict=col_prob_dict)[0]
+        if nuclei=='U_238':
+            print('U_238_milaa re baba')
+            col_prob_dict = get_collision_prob_dict(init_energy, nucleus='U_238')
+            return self.generate_choices_probability(init_energy,nuclei_prob_dict=col_prob_dict)[0]
         return 'in_progress'
 
     @staticmethod
@@ -83,5 +87,8 @@ if __name__ == "__main__":
     for i in range(100):
         nuetron_energy = Simulation_Instance.fix_init_nuetron_energy()
         nucleus_prob = Simulation_Instance.generate_choices_probability(nuetron_energy)[0]
+        # nucleus_prob = 'U_238'
         collision_type = Simulation_Instance.generate_collision_type(nuetron_energy,nucleus_prob)
+        print(nuetron_energy)
+        print(collision_type)
         print(Simulation_Instance.energy_post_collision(nuetron_energy,collision_type,nucleus_prob))
