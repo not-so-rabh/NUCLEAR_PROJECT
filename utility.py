@@ -47,7 +47,7 @@ atom_count_dict = {
     'Zr': atoms_Zr,
     'U_238':atoms_U238,
     'U_235':atoms_U235,
-    'H_2':atoms_water*2,
+    'D_2':atoms_water*2,
     'O_16':atoms_water,
-    'H2O': atoms_water
+    'D2O': atoms_water
 }
