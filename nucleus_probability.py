@@ -25,8 +25,8 @@ def cross_section(energy,element,dataframes_dict):
 
     return cross_section
 
-def get_cross_section_dict(energy,directory=DATA_DIRECTORY,Nuclei=Nuclei_init):
-    dataframes_dict = get_dataframes(directory)
+def get_cross_section_dict(energy,dataframe,directory=DATA_DIRECTORY,Nuclei=Nuclei_init):
+    dataframes_dict = dataframe
     # print(dataframes_dict.keys())
     cross_section_dict = {}
     for nucleus in Nuclei:
@@ -39,11 +39,12 @@ def get_probability(n_sig_list, cross_section_dict, nucleus):
     nucleus_probability = cross_section_dict[nucleus]*atom_count_dict[nucleus]/sum(n_sig_list)
     return nucleus_probability
 
-def get_nucleus_probability_dict(energy):
+def get_nucleus_probability_dict(energy,dataframe_dict):
     global DATA_DIRECTORY
     global dataframes_dict
-    dataframes_dict = get_dataframes(DATA_DIRECTORY)
-    cross_section_dict = get_cross_section_dict(energy)
+    # dataframes_dict = get_dataframes(DATA_DIRECTORY)
+    dataframe_dict = dataframe_dict
+    cross_section_dict = get_cross_section_dict(energy,dataframe=dataframe_dict)
     # print(cross_section_dict.keys())
     n_sig_water = (atom_count_dict['D_2']*cross_section_dict['D_2']) + (atom_count_dict['O_16']*cross_section_dict['O_16'])
     n_sig_list = [cross_section_dict[nucleus_temp]*atom_count_dict[nucleus_temp]
