@@ -75,6 +75,7 @@ class MultiplicationFactor:
 
 
 if __name__ == "__main__":
+
     Simulation_Instance = MultiplicationFactor(10000)
     # print(Simulation_Instance.pdf(0))
     # i = 0
@@ -96,7 +97,9 @@ if __name__ == "__main__":
     # plt.clf()
     # sns.distplot(lst)
     # plt.xlim(0, 8)
-    number_of_nuetrons = 10000
+
+    number_of_nuetrons = int(input('Please enter number of nuetrons: '))
+    
     print("Alocating nuetron energies")
     nuetron_energies = [Simulation_Instance.fix_init_nuetron_energy() for count_nuetron in range(number_of_nuetrons)]
     print('Done. Starting Simulation now')
