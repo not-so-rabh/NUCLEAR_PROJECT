@@ -16,11 +16,11 @@ area_fuel=area_fuel/100
 area_Zr=area_Zr/100
 area_water =area_water /100
 
-density_water = 1            #g/cm³
+density_water = 1.11            #g/cm³
 density_Zr = 6.49            #g/cm³
 density_fuel = 10.97          #g/cm³ #U20
 Percent_u235 = 0.0071
-M_water = 18                 #g/mole
+M_water = 20                 #g/mole
 M_Zr = 90.90564              #g/mole
 M_fuel = 270.028              #g/mole
 
@@ -42,6 +42,14 @@ atoms_Zr = n_Zr*avd_no
 atoms_U238 = (1-Percent_u235)*n_fuel*avd_no
 atoms_U235 = Percent_u235*n_fuel*avd_no
 atoms_water = n_water*avd_no
+
+# #no. of atoms 
+# avd_no=6.02214 * pow(10,23)
+# atoms_Zr=n_Zr*avd_no
+# atoms_U238=(1-Percent_u235)*n_fuel*avd_no
+# atoms_U235=Percent_u235*n_fuel*avd_no
+atoms_O=n_water*avd_no + 2*n_fuel*avd_no
+atoms_D=2*n_water*avd_no
 
 atom_count_dict = {
     'Zr': atoms_Zr,

@@ -1,5 +1,6 @@
+from data_extraction import get_dataframes
 import math
-from nucleus_probability import get_cross_section_dict
+from nucleus_probability import cross_section, get_cross_section_dict
 
 ATOMIC_NUMBER = {
     'D2O': 20,
@@ -10,14 +11,21 @@ ATOMIC_NUMBER = {
 ELASTIC_ENERGY_LOSS_COEFF = {
     'D2O': 0.491,
     'U_238':0.992,
-    'Zr':0.956
+    'Zr':0.956,
+    'D':0.11,
+    'O':0.778
 }
 D2O_data_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/D2O_collision'
+Zr_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/Zr_collision'
 U_238_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/U_238_collision'
+D_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/D_collision'
+O_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/O_collision'
 D2O_nuclei_type = ['D_inelastic', 'O_elastic', 'D_elastic', 'O_inelastic','D_capture','O_capture']
 U_238_nuclei_type = ['U_238_inelastic','U_238_elastic', 'U_238_capture']
 Zr_nuclei_type = ['Zr_inelastic', 'Zr_elastic', 'Zr_capture']
-Zr_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/Zr_collision'
+D_nuclei_type = ['D_inelastic','D_elastic','D_capture']
+O_nuclei_type = ['O_inelastic','O_elastic','O_capture']
+
 
 def elastic_collision_energy(init_energy, nucleus):
     multiplier = ELASTIC_ENERGY_LOSS_COEFF[nucleus]
@@ -53,6 +61,23 @@ def get_Zr_cross_section(energy,dataframe):
     Zr_cross_section_dict['capture'] = cross_section_dict['Zr_capture']
     return Zr_cross_section_dict
 
+def get_D_cross_section(energy,dataframe):
+    cross_section_dict = get_cross_section_dict(energy,directory=D_directory,Nuclei=D_nuclei_type,dataframe=dataframe)
+    D_cross_section_dict = {}
+    D_cross_section_dict['elastic'] = cross_section_dict['D_elastic']
+    D_cross_section_dict['inelastic'] = cross_section_dict['D_inelastic']
+    D_cross_section_dict['capture'] = cross_section_dict['D_capture']
+    return D_cross_section_dict
+
+def get_O_cross_section(energy, dataframe):
+    cross_section_dict = get_cross_section_dict(energy,directory=O_directory,Nuclei=O_nuclei_type,dataframe=dataframe)
+    O_cross_section_dict = {}
+    O_cross_section_dict['elastic'] = cross_section_dict['O_elastic']
+    O_cross_section_dict['inelastic'] = cross_section_dict['O_inelastic']
+    O_cross_section_dict['capture'] = cross_section_dict['O_capture']
+    return O_cross_section_dict
+
+
 
 def get_collision_prob_dict(energy,dataframe,nucleus='D2O'):
     probab_dict = {}
@@ -63,6 +88,10 @@ def get_collision_prob_dict(energy,dataframe,nucleus='D2O'):
         cross_section_dict = get_U_238_cross_section(energy,dataframe)
     if nucleus=='Zr':
         cross_section_dict = get_Zr_cross_section(energy,dataframe)
+    if nucleus=='D':
+        cross_section_dict = get_D_cross_section(energy,dataframe)
+    if nucleus=='O':
+        cross_section_dict = get_O_cross_section(energy, dataframe)
 
     collision_type = cross_section_dict.keys()
     cross_section_list = [cross_section_dict[key] for key in cross_section_dict.keys()]
@@ -73,7 +102,8 @@ def get_collision_prob_dict(energy,dataframe,nucleus='D2O'):
 
 
 if __name__ == "__main__":
-
-    print(get_collision_prob_dict(2.1))
+    dataframe = get_dataframes(D_directory)
+    print(dataframe.keys())
+    print(get_collision_prob_dict(2.1,dataframe,nucleus='D'))
 
 
