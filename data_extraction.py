@@ -5,6 +5,14 @@ import glob
 DATA_DIRECTORY = '/home/sourabh/Development/NUCLEAR_PROJECT/data'
 
 def extract_data(json_file_address):
+    """function to convert json data to dataframe excludes other details
+
+    Args:
+        json_file_address (string): address of the json file to be processed
+
+    Returns:
+        Dataframe: dataframe of json data
+    """
 
     with open(json_file_address) as json_file:
         json_data = json.load(json_file)
@@ -13,9 +21,25 @@ def extract_data(json_file_address):
     return dataframe
 
 def dictionary_to_dataframe(dict):
+    """converts dictionday to data
+
+    Args:
+        dict (dictinary): dictionary to be converted
+
+    Returns:
+        DataFrame: dataframe from dictionary
+    """
     return pd.DataFrame(dict)
 
 def get_dataframes(data_directory):
+    """function to convert all json files in a directory to dataframes
+
+    Args:
+        data_directory (string): directory where all json files are stored
+
+    Returns:
+        DataFrame: dataframes of all json files
+    """
     list_of_files = glob.glob(data_directory + "/*.json")
     dataframe_dict = {}
     for file in list_of_files:

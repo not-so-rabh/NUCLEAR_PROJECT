@@ -1,5 +1,8 @@
 import math
 
+"""File with all the calculation in involved to generate number of atoms
+"""
+
 pi=3.14
 #number of Fuel rods in one bundle
 n = 196
@@ -7,8 +10,8 @@ n = 196
 ntb = 2
 total_rods = n*ntb
 #Units in mm
-area_fuel = 14*14*3.14/4*(10^2)
-area_Zr =(14*14*pi/4* (11*11-10*10))+ ((212*212)-(210*210))
+area_fuel = (14*14*3.14/4)*(10^2)
+area_Zr =((14*14*pi/4)* (11*11-10*10))+ ((212*212)-(210*210))
 area_water = (222*222)-area_Zr-area_fuel
 
 #Units in cm
@@ -19,7 +22,7 @@ area_water =area_water /100
 density_water = 1.11            #g/cm³
 density_Zr = 6.49            #g/cm³
 density_fuel = 10.97          #g/cm³ #U20
-Percent_u235 = 0.0071
+Percent_u235 = 0.071
 M_water = 20                 #g/mole
 M_Zr = 90.90564              #g/mole
 M_fuel = 270.028              #g/mole

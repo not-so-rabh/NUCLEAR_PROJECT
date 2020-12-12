@@ -13,7 +13,17 @@ def nucleus_probs():
     pass
 
 def cross_section(energy,element,dataframes_dict):
-    "Gives cross section for the given element for the given data"
+    """gives cross section data for a given nuetron energy and nucleus from a data
+
+    Args:
+        energy (int): the nuetron energy
+        element (string): element whose cross section is needed
+        dataframes_dict (dict): dictionary of dataframes of different element
+
+    Returns:
+        int: cross section data
+    """
+
     # print(dataframes_dict.keys())
     dataframe = dataframes_dict[element]
     # y - Cross_section
@@ -26,6 +36,17 @@ def cross_section(energy,element,dataframes_dict):
     return cross_section
 
 def get_cross_section_dict(energy,dataframe,directory=DATA_DIRECTORY,Nuclei=Nuclei_init):
+    """generate cross section dict for a given nuetron energy and dataframe
+
+    Args:
+        energy (int): energy at which the data is needed
+        dataframe ([dict]): dictionary of various required dataframes
+        directory (['string], optional): address where the required data is stored. Defaults to DATA_DIRECTORY.
+        Nuclei (list, optional): types of nuclei in the given dataframes. Defaults to Nuclei_init.
+
+    Returns:
+        [dictionary]: different cross section data
+    """
     dataframes_dict = dataframe
     # print(dataframes_dict.keys())
     cross_section_dict = {}
@@ -34,12 +55,32 @@ def get_cross_section_dict(energy,dataframe,directory=DATA_DIRECTORY,Nuclei=Nucl
     return cross_section_dict
 
 def get_probability(n_sig_list, cross_section_dict, nucleus):
+    """converts cross section of an element to it's probability
+
+    Args:
+        n_sig_list (list): list of cross sections
+        cross_section_dict (dict): dictionary with all the cross sections
+        nucleus (int): nucleus which is to be converted to probability
+
+    Returns:
+        int: probability of hitting the given cross sections
+    """
     #n*sigma
     # print(cross_section_dict.keys())
     nucleus_probability = cross_section_dict[nucleus]*atom_count_dict[nucleus]/sum(n_sig_list)
     return nucleus_probability
 
 def get_nucleus_probability_dict(energy,dataframe_dict,D2O=True):
+    """generates probabilities for a particular collision event to happen
+
+    Args:
+        energy (int): nuetron energy
+        dataframe_dict (dictionary): dictionary of required dataframes
+        D2O (bool, optional): whether the probability needed is combined or separated atoms of D2O. Defaults to True.
+
+    Returns:
+        [type]: [description]
+    """
     global DATA_DIRECTORY
     global dataframes_dict
     # dataframes_dict = get_dataframes(DATA_DIRECTORY)
