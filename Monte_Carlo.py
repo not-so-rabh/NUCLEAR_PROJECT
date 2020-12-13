@@ -1,5 +1,6 @@
 from data_extraction import DATA_DIRECTORY, get_dataframes
 import random
+import os
 import math
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -237,7 +238,9 @@ class MultiplicationFactor:
 
 
 if __name__ == "__main__":
-
+    print('Installing Dependencies')
+    os.system('pip install -r requirements.txt')
+    print('Dependencies Installation Done')
     Simulation_Instance = MultiplicationFactor(10000,D2O=True)
     Simulation_Instance.run_simulation()
 
