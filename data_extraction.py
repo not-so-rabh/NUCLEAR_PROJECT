@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import glob
 
-DATA_DIRECTORY = '/home/sourabh/Development/NUCLEAR_PROJECT/data'
+DATA_DIRECTORY = 'data'
 
 def extract_data(json_file_address):
     """function to convert json data to dataframe excludes other details
@@ -51,8 +51,6 @@ def get_dataframes(data_directory):
 
 
 if __name__ == "__main__":
-    # data_H2 = extract_data('/home/sourabh/Development/NUCLEAR_PROJECT/data/H-2.json')
-    
-    # print(data_H2.head(5))
+
     dataframes = get_dataframes(DATA_DIRECTORY)
     print(dataframes['U_235']['E'].values)

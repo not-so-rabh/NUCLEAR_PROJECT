@@ -3,7 +3,7 @@ from numpy.core.numeric import cross
 from data_extraction import get_dataframes
 from utility import atom_count_dict
 
-DATA_DIRECTORY = '/home/sourabh/Development/NUCLEAR_PROJECT/data'
+DATA_DIRECTORY = 'data'
 Nuclei_init = ['D_2','O_16','U_235','U_238','Zr']
 
 "Module to generate the probabilities based on cross-sections"
@@ -24,10 +24,7 @@ def cross_section(energy,element,dataframes_dict):
         int: cross section data
     """
 
-    # print(dataframes_dict.keys())
     dataframe = dataframes_dict[element]
-    # y - Cross_section
-    # x - Energy
     cross_section_data = dataframe['Sig'].values
     energy_data = dataframe['E'].values
 
@@ -48,7 +45,6 @@ def get_cross_section_dict(energy,dataframe,directory=DATA_DIRECTORY,Nuclei=Nucl
         [dictionary]: different cross section data
     """
     dataframes_dict = dataframe
-    # print(dataframes_dict.keys())
     cross_section_dict = {}
     for nucleus in Nuclei:
         cross_section_dict[nucleus] = cross_section(energy, nucleus, dataframes_dict)
@@ -65,8 +61,6 @@ def get_probability(n_sig_list, cross_section_dict, nucleus):
     Returns:
         int: probability of hitting the given cross sections
     """
-    #n*sigma
-    # print(cross_section_dict.keys())
     nucleus_probability = cross_section_dict[nucleus]*atom_count_dict[nucleus]/sum(n_sig_list)
     return nucleus_probability
 
@@ -83,13 +77,10 @@ def get_nucleus_probability_dict(energy,dataframe_dict,D2O=True):
     """
     global DATA_DIRECTORY
     global dataframes_dict
-    # dataframes_dict = get_dataframes(DATA_DIRECTORY)
     dataframe_dict = dataframe_dict
     cross_section_dict = get_cross_section_dict(energy,dataframe=dataframe_dict)
-    # print(cross_section_dict.keys())
     
     
-    # print(cross_section_dict.keys())
     excluded = []
     probability_dict = {}
     if D2O:
@@ -106,9 +97,6 @@ def get_nucleus_probability_dict(energy,dataframe_dict,D2O=True):
     for nucleus in Nuclei_init:
         if nucleus not in excluded:
             probability_dict[nucleus] = get_probability(n_sig_list,cross_section_dict, nucleus)
-    # if not D2O:
-    #     probability_dict['D_2'] = 2*probability_dict['D_2']
-    # print(probability_dict)
     return probability_dict
 
 

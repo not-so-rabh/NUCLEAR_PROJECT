@@ -8,12 +8,12 @@ from nucleus_probability import get_nucleus_probability_dict, nucleus_probs
 from collision import get_collision_prob_dict,elastic_collision_energy,inelastic_collision_energy
 
 
-DATA_DIRECTORY_NUCLEUS = '/home/sourabh/Development/NUCLEAR_PROJECT/data'
-DATA_DIRECTORY_D2O = '/home/sourabh/Development/NUCLEAR_PROJECT/data/D2O_collision'
-DATA_DIRECTORY_U_238 = '/home/sourabh/Development/NUCLEAR_PROJECT/data/U_238_collision'
-DATA_DIRECTORY_Zr = '/home/sourabh/Development/NUCLEAR_PROJECT/data/Zr_collision'
-DATA_DIRECTORY_D = '/home/sourabh/Development/NUCLEAR_PROJECT/data/D_collision'
-DATA_DIRECTORY_O = '/home/sourabh/Development/NUCLEAR_PROJECT/data/O_collision'
+DATA_DIRECTORY_NUCLEUS = 'data'
+DATA_DIRECTORY_D2O = 'data/D2O_collision'
+DATA_DIRECTORY_U_238 = 'data/U_238_collision'
+DATA_DIRECTORY_Zr = 'data/Zr_collision'
+DATA_DIRECTORY_D = 'data/D_collision'
+DATA_DIRECTORY_O = 'data/O_collision'
 
 class MultiplicationFactor:
     """class to run a Monte Carlo Simulation to generate a Multiplication factor for a given reaction
@@ -61,10 +61,7 @@ class MultiplicationFactor:
         Returns:
             int: a random value according to the assigned weights
         """
-        # population = [0.000007 * i for i in range(1, 1000000)]
-        # # print(population[0:20])
-        # weights = [pdf(step) for step in population]
-        # print(weights)
+        
         return random.choices(population, weights)
 
     def fix_init_nuetron_energy(self):
@@ -74,7 +71,6 @@ class MultiplicationFactor:
             int: randomly selected initial energy of a nuetron
         """
         population_list = [(7/self.steps)*step for step in range(1,self.steps)]
-        # print(population[0:20])
         weights_list = [self.pdf(step) for step in population_list]
         init_energy = self.generate_random_with_dist(population_list, weights_list)
 
@@ -99,7 +95,7 @@ class MultiplicationFactor:
         for key in nuclei_prob_dict.keys():
             weights.append(nuclei_prob_dict[key])
             population.append(key)
-        # print(nuclei_prob_dict)
+
         return self.generate_random_with_dist(population, weights)
 
     def generate_collision_type(self,init_energy,nuclei):
@@ -116,7 +112,7 @@ class MultiplicationFactor:
             col_prob_dict = get_collision_prob_dict(init_energy, self.D2O_dataframe)
             return self.generate_choices_probability(init_energy,nuclei_prob_dict=col_prob_dict)[0]
         if nuclei=='U_238':
-            # print('U_238_milaa re baba')
+
             col_prob_dict = get_collision_prob_dict(init_energy, dataframe=self.U_238_dataframe, nucleus='U_238')
             return self.generate_choices_probability(init_energy,nuclei_prob_dict=col_prob_dict)[0]
         if nuclei=='Zr':
@@ -164,34 +160,30 @@ class MultiplicationFactor:
         print(nuetron_energies)
         for nuetron_number in range(len(nuetron_energies)):
             nuetron_energy = nuetron_energies[nuetron_number]
-            # print(nuetron_energy)
+            
 
             is_alive_nuetron = True
-            # nucleus_prob = 'U_238'
+            
             while(is_alive_nuetron):
-                # print(nuetron_energy)
+                
                 if(nuetron_energy<0.000001):
                     is_alive_nuetron = False
                     continue
                 nucleus_prob = self.generate_choices_probability(nuetron_energy)[0]
-                # nucleus_prob = 'Zr'
-                # print(nucleus_prob)
+
                 if nucleus_prob == 'Zr':
-                    # print(nucleus_prob)
+
                     collision_type = self.generate_collision_type(nuetron_energy,nucleus_prob)
-                    # collision_type = 'inelastic'
+
                     print(nucleus_prob + ' ' + collision_type)
                     if collision_type == 'capture':
                         captured_nuetrons += 1
                         is_alive_nuetron = False
                         continue
                     nuetron_energy = self.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
-                    # print(nuetron_energy)
-                    # is_alive_nuetron = False
-                    # print(nuetron_energy)
+
 
                 if nucleus_prob == 'U_235':
-                    # print(nucleus_prob)
                     fission_count += random.choices([2,3],[0.5,0.5])[0]
                     is_alive_nuetron = False
                     continue
@@ -204,7 +196,6 @@ class MultiplicationFactor:
                     collision_type = self.generate_collision_type(nuetron_energy,nucleus_prob)
                     print(nucleus_prob + ' ' + collision_type)
                     if collision_type == 'capture':
-                        # number_of_nuetrons -= 1
                         captured_nuetrons += 1
                         is_alive_nuetron = False
                         continue
@@ -213,7 +204,6 @@ class MultiplicationFactor:
                     collision_type = self.generate_collision_type(nuetron_energy,nucleus_prob)
                     print(nucleus_prob + ' ' + collision_type)
                     if collision_type == 'capture':
-                        # number_of_nuetrons -= 1
                         captured_nuetrons += 1
                         is_alive_nuetron = False
                         continue
@@ -224,15 +214,13 @@ class MultiplicationFactor:
                         collision_type = 'capture'
                     else:
                         collision_type = 'inelastic'
-                    # collision_type = self.generate_collision_type(nuetron_energy,nucleus_prob)
                     print(nucleus_prob + ' ' + collision_type)
                     if collision_type == 'capture':
-                        # number_of_nuetrons -= 1
                         captured_nuetrons += 1
                         is_alive_nuetron = False
                         continue
                     nuetron_energy = self.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
-        print(fission_count/number_of_nuetrons)
+        print('Multiplication Factor: ',fission_count/number_of_nuetrons)
         print('The number of captured nuetrons ',captured_nuetrons)
         print('The number of fissioned nuetrons ',fission_count)
 

@@ -15,11 +15,11 @@ ELASTIC_ENERGY_LOSS_COEFF = {
     'D':0.11,
     'O':0.778
 }
-D2O_data_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/D2O_collision'
-Zr_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/Zr_collision'
-U_238_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/U_238_collision'
-D_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/D_collision'
-O_directory = '/home/sourabh/Development/NUCLEAR_PROJECT/data/O_collision'
+D2O_data_directory = 'data/D2O_collision'
+Zr_directory = 'data/Zr_collision'
+U_238_directory = 'data/U_238_collision'
+D_directory = 'data/D_collision'
+O_directory = 'data/O_collision'
 D2O_nuclei_type = ['D_inelastic', 'O_elastic', 'D_elastic', 'O_inelastic','D_capture','O_capture']
 U_238_nuclei_type = ['U_238_inelastic','U_238_elastic', 'U_238_capture']
 Zr_nuclei_type = ['Zr_inelastic', 'Zr_elastic', 'Zr_capture']
@@ -38,8 +38,7 @@ def elastic_collision_energy(init_energy, nucleus):
         int: energy after elastic collision
     """
     multiplier = ELASTIC_ENERGY_LOSS_COEFF[nucleus]
-    # print(init_energy)
-    # print(atomic_number)
+    
     final_energy = multiplier*init_energy
     return final_energy
 
