@@ -222,7 +222,7 @@ class MultiplicationFactor:
                     nuetron_energy = self.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
         print('Multiplication Factor: ',fission_count/number_of_nuetrons)
         print('The number of captured nuetrons ',captured_nuetrons)
-        print('The number of fissioned nuetrons ',fission_count)
+        print('The number of new nuetrons from fissioned nuetrons ',fission_count)
 
 
 if __name__ == "__main__":
