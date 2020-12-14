@@ -151,6 +151,11 @@ class MultiplicationFactor:
         """Runs the Monte Carlo simulation
         """
         number_of_nuetrons = int(input('Please enter number of nuetrons: '))
+        dead = 0
+        D2O_capture = 0
+        Zr_capture = 0
+        U_238_capture = 0
+
 
         print("Alocating nuetron energies")
         nuetron_energies = [self.fix_init_nuetron_energy() for count_nuetron in range(number_of_nuetrons)]
@@ -168,6 +173,7 @@ class MultiplicationFactor:
                 
                 if(nuetron_energy<0.000001):
                     is_alive_nuetron = False
+                    dead += 1
                     continue
                 nucleus_prob = self.generate_choices_probability(nuetron_energy)[0]
 
@@ -178,6 +184,7 @@ class MultiplicationFactor:
                     print(nucleus_prob + ' ' + collision_type)
                     if collision_type == 'capture':
                         captured_nuetrons += 1
+                        Zr_capture += 1
                         is_alive_nuetron = False
                         continue
                     nuetron_energy = self.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
@@ -190,6 +197,11 @@ class MultiplicationFactor:
                 if nucleus_prob == 'D2O':
                     collision_type = self.generate_collision_type(nuetron_energy,nucleus_prob)
                     print(nucleus_prob + ' ' + collision_type)
+                    if collision_type == 'capture':
+                        captured_nuetrons += 1
+                        D2O_capture += 1
+                        is_alive_nuetron = False
+                        continue
                     nuetron_energy = self.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
                     continue
                 if nucleus_prob == 'D':
@@ -197,6 +209,7 @@ class MultiplicationFactor:
                     print(nucleus_prob + ' ' + collision_type)
                     if collision_type == 'capture':
                         captured_nuetrons += 1
+                        D2O_capture += 1
                         is_alive_nuetron = False
                         continue
                     nuetron_energy = self.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
@@ -205,6 +218,7 @@ class MultiplicationFactor:
                     print(nucleus_prob + ' ' + collision_type)
                     if collision_type == 'capture':
                         captured_nuetrons += 1
+                        D2O_capture += 1
                         is_alive_nuetron = False
                         continue
                     nuetron_energy = self.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
@@ -217,12 +231,17 @@ class MultiplicationFactor:
                     print(nucleus_prob + ' ' + collision_type)
                     if collision_type == 'capture':
                         captured_nuetrons += 1
+                        U_238_capture += 1
                         is_alive_nuetron = False
                         continue
                     nuetron_energy = self.energy_post_collision(nuetron_energy,collision_type,nucleus_prob)
         print('Multiplication Factor: ',fission_count/number_of_nuetrons)
-        print('The number of captured nuetrons ',captured_nuetrons)
-        print('The number of new nuetrons from fissioned nuetrons ',fission_count)
+        print('captured nuetrons ',captured_nuetrons)
+        print('nuetrons capture in Zr ',Zr_capture)
+        print('nuetrons capture in D2O',D2O_capture)
+        print('nuetrons capture in U_238 ',U_238_capture)
+        print('nuetrons dead ',dead)
+        print('new nuetrons from fissioned nuetrons ',fission_count)
 
 
 if __name__ == "__main__":
